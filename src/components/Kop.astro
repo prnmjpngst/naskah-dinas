@@ -1,0 +1,52 @@
+---
+import { DEPT_INFO } from '../config';
+---
+
+<header class="kop-naskah">
+  <img src={DEPT_INFO.logo} alt="Logo Kabupaten Lumajang" />
+  <div class="dept-info">
+    <p class="gov-name">PEMERINTAH {DEPT_INFO.kabupaten}</p>
+    <p class="dept-name">{DEPT_INFO.name}</p>
+    <p class="contact">
+      {DEPT_INFO.address} • Telp: {DEPT_INFO.phone} • {DEPT_INFO.website} • E-mail: {DEPT_INFO.email}
+    </p>
+  </div>
+</header>
+<hr />
+
+<style>
+  .kop-naskah {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    text-align: center;
+    margin-bottom: 0.5rem;
+  }
+  img {
+    height: 2.7cm;
+    width: 2cm;
+  }
+  .dept-info {
+    flex: 1;
+    font-family: Arial, sans-serif;
+  }
+  .gov-name {
+    font-size: 14pt;
+    font-weight: bold;
+    margin: 0;
+  }
+  .dept-name {
+    font-size: 18pt;
+    font-weight: bold;
+    margin: 0;
+  }
+  .contact {
+    font-size: 10pt;
+    margin: 0.25rem 0 0 0;
+  }
+  hr {
+    border: 0;
+    border-top: 2px solid #000;
+    margin: 0 0 1rem 0;
+  }
+</style>

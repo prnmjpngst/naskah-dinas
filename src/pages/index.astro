@@ -1,17 +1,67 @@
 ---
-
+import { DocumentSchemas } from '../schemas';
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
+<html lang="id">
+<head>
+  <title>Generator Naskah Dinas</title>
+  <style>
+    body { font-family: sans-serif; max-width: 800px; margin: 2rem auto; padding: 0 1rem; color: #333; }
+    h1 { font-size: 1.5rem; }
+    .form-group { margin-bottom: 1rem; }
+    label { display: block; margin-bottom: 0.25rem; font-weight: bold; }
+    input, textarea { width: 100%; padding: 0.5rem; border: 1px solid #ccc; border-radius: 4px; }
+    button { padding: 0.5rem 1rem; background: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer; }
+  </style>
+</head>
+<body>
+  <h1>Generator Naskah Dinas</h1>
+  <div class="form-group">
+    <label>Pilih Jenis Naskah:</label>
+    <select id="docType">
+      {Object.entries(DocumentSchemas).map(([key, doc]) => (
+        <option value={key}>{doc.title}</option>
+      ))}
+    </select>
+  </div>
+  <form id="docForm"></form>
+  <button id="generateBtn">Generate & Print</button>
+
+  <script>
+    import { DocumentSchemas } from '../schemas';
+    const docTypeSelect = document.getElementById('docType');
+    const form = document.getElementById('docForm');
+    const generateBtn = document.getElementById('generateBtn');
+
+    function renderForm() {
+      const type = docTypeSelect.value;
+      const schema = DocumentSchemas[type];
+      form.innerHTML = '';
+      
+      Object.entries(schema.fields).forEach(([key, field]) => {
+        const div = document.createElement('div');
+        div.className = 'form-group';
+        div.innerHTML = `<label>${field.label}</label>`;
+        
+        if (field.type === 'textarea') {
+            div.innerHTML += `<textarea name="${key}"></textarea>`;
+        } else {
+            div.innerHTML += `<input type="${field.type}" name="${key}">`;
+        }
+        form.appendChild(div);
+      });
+    }
+
+    docTypeSelect.addEventListener('change', renderForm);
+    renderForm();
+
+    generateBtn.addEventListener('click', () => {
+      const formData = new FormData(form);
+      const data = Object.fromEntries(formData.entries());
+      const type = docTypeSelect.value;
+      const url = `/preview?type=${type}&data=${encodeURIComponent(JSON.stringify(data))}`;
+      window.open(url, '_blank');
+    });
+  </script>
+</body>
 </html>

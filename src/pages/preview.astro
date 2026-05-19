@@ -1,0 +1,26 @@
+---
+import SuratLayout from '../layouts/SuratLayout.astro';
+---
+
+<SuratLayout>
+  <div id="content"></div>
+</SuratLayout>
+
+<script>
+  const urlParams = new URLSearchParams(window.location.search);
+  const data = JSON.parse(urlParams.get('data') || '{}');
+  const type = urlParams.get('type');
+  
+  const content = document.getElementById('content');
+  
+  if (type === 'suratTugas') {
+    content.innerHTML = `
+      <p>Dasar: ${data.dasar}</p>
+      <p>Untuk: ${data.untuk}</p>
+      <p>Tanggal: ${data.tanggal}</p>
+    `;
+  }
+  // Add other types as needed
+  
+  window.print();
+</script>

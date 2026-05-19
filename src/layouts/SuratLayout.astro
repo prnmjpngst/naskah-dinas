@@ -1,0 +1,28 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Kop from '../components/Kop.astro';
+---
+
+<BaseLayout title="Cetak Surat Tugas">
+  <div class="no-print">
+    <button onclick="window.print()">Cetak PDF</button>
+    <a href="/">Kembali ke Form</a>
+  </div>
+  
+  <Kop />
+  
+  <main class="content">
+    <h2 class="title">SURAT TUGAS</h2>
+    <p class="nomor">NOMOR: ...</p>
+    
+    <div class="body-content">
+      <slot />
+    </div>
+  </main>
+</BaseLayout>
+
+<style>
+  .title { text-align: center; font-size: 14pt; margin: 1rem 0 0.5rem 0; }
+  .nomor { text-align: center; margin: 0 0 1.5rem 0; }
+  .body-content { text-align: justify; }
+</style>
