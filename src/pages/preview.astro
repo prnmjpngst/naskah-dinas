@@ -1,12 +1,15 @@
 ---
 import SuratLayout from '../layouts/SuratLayout.astro';
+import { Boilerplate } from '../boilerplate';
 ---
 
 <SuratLayout>
-  <div id="content"></div>
+  <div id="printable">
+    <div id="content"></div>
+  </div>
 </SuratLayout>
 
-<script>
+<script define:vars={{ Boilerplate }}>
   const urlParams = new URLSearchParams(window.location.search);
   const data = JSON.parse(urlParams.get('data') || '{}');
   const type = urlParams.get('type');
@@ -15,12 +18,20 @@ import SuratLayout from '../layouts/SuratLayout.astro';
   
   if (type === 'suratTugas') {
     content.innerHTML = `
+      <div style="text-align:center;">
+        <strong>${Boilerplate.suratTugas.pembuka}</strong>
+      </div>
       <p>Dasar: ${data.dasar}</p>
+      <br/>
+      <div style="text-align:center;">
+        <strong>${Boilerplate.suratTugas.perintah}</strong>
+      </div>
+      <p>Kepada: ${data.kepada}</p>
       <p>Untuk: ${data.untuk}</p>
       <p>Tanggal: ${data.tanggal}</p>
     `;
   }
-  // Add other types as needed
+  // ... other types
   
   window.print();
 </script>

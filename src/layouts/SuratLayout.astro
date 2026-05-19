@@ -5,24 +5,42 @@ import Kop from '../components/Kop.astro';
 
 <BaseLayout title="Cetak Surat Tugas">
   <div class="no-print">
-    <button onclick="window.print()">Cetak PDF</button>
+    <button id="downloadBtn">Download PDF</button>
     <a href="/">Kembali ke Form</a>
   </div>
-  
-  <Kop />
-  
-  <main class="content">
-    <h2 class="title">SURAT TUGAS</h2>
-    <p class="nomor">NOMOR: ...</p>
-    
-    <div class="body-content">
-      <slot />
-    </div>
-  </main>
+
+  <div>
+    <Kop />
+
+    <main class="content">
+      <h2 class="title">SURAT TUGAS</h2>
+      <p class="nomor">NOMOR: ...</p>
+
+      <div class="body-content">
+        <slot />
+      </div>
+    </main>
+  </div>
 </BaseLayout>
 
-<style>
-  .title { text-align: center; font-size: 14pt; margin: 1rem 0 0.5rem 0; }
-  .nomor { text-align: center; margin: 0 0 1.5rem 0; }
-  .body-content { text-align: justify; }
-</style>
+<script>
+  import html2pdf from 'html2pdf.js';
+
+  document.getElementById('downloadBtn')?.addEventListener('click', () => {
+    // Target the specific container defined in the pages
+    const element = document.getElementById('printable') || document.body;
+    const opt = {
+      margin: 1,
+      filename: 'surat.pdf',
+      image: { type: 'jpeg', quality: 0.98 },
+      html2canvas: { 
+        scale: 2,
+        useCORS: true,
+        logging: false
+      },
+      jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+    };
+
+    html2pdf().set(opt).from(element).save();
+  });
+</script>
